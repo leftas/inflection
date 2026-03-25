@@ -41,7 +41,7 @@ INFLECTION_CAPI int32_t ilgf_getCategoryName(const char* locale, int32_t categor
  * Return the number of grammeme values for the named category.
  * @param locale BCP 47 locale string.
  * @param categoryName UTF-16 category name (e.g. u"number").
- * @param categoryNameLen Length of categoryName, or -1 for NUL-terminated.
+ * @param categoryNameLen Length of categoryName, or -1 for NULL-terminated.
  * @param status UErrorCode; set to failure if category not found.
  * @return Number of grammemes, or -1 on error.
  */
@@ -53,7 +53,7 @@ INFLECTION_CAPI int32_t ilgf_getGrammemeCount(const char* locale,
  * Return the grammeme value at the given index within a named category.
  * @param locale BCP 47 locale string.
  * @param categoryName UTF-16 category name.
- * @param categoryNameLen Length of categoryName, or -1 for NUL-terminated.
+ * @param categoryNameLen Length of categoryName, or -1 for NULL-terminated.
  * @param grammemeIndex Zero-based index within the category's value set.
  * @param dest Output buffer for the UTF-16 grammeme name.
  * @param destCapacity Capacity of dest in char16_t units.
