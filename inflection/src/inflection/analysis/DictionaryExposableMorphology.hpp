@@ -25,6 +25,7 @@ public:
 
 public:
     ::std::vector<int64_t> getWordGrammemeSets(::std::u16string_view word) const;
+    ::std::vector<int64_t> getWordParadigmGrammemes(::std::u16string_view word) const;
     const dictionary::DictionaryMetaData & getDictionary() const;
     const ::inflection::dictionary::Inflector& getInflector() const;
     ::inflection::util::ULocale getLocale() const;

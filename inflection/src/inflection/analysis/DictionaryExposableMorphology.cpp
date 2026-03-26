@@ -68,6 +68,38 @@ const ::inflection::dictionary::Inflector& DictionaryExposableMorphology::getInf
     return wordGrammemesets;
 }
 
+::std::vector<int64_t> DictionaryExposableMorphology::getWordParadigmGrammemes(::std::u16string_view word) const {
+    int64_t wordGrammemes = 0;
+    // Word not in dictionary
+    if (dictionary.getCombinedBinaryType(&wordGrammemes, word) == nullptr) {
+        return {};
+    }
+    ::std::vector<::inflection::dictionary::Inflector_InflectionPattern> inflectionPatterns;
+    inflector.getInflectionPatternsForWord(word, inflectionPatterns);
+    if (inflectionPatterns.empty()) {
+        return {wordGrammemes};
+    }
+
+    ::std::vector<int64_t> paradigmGrammemes;
+    for (const auto& inflectionPattern : inflectionPatterns) {
+        auto pos = inflectionPattern.getPartsOfSpeech();
+        int32_t numInflections = inflectionPattern.numInflections();
+        if (numInflections == 0) {
+            paradigmGrammemes.push_back(pos);
+            continue;
+        }
+        // Enumerate ALL inflections in the pattern, not just those matching surface form
+        for (int32_t i = 0; i < numInflections; i++) {
+            auto inflection = inflectionPattern.getInflectionAtPosition(i);
+            paradigmGrammemes.push_back(inflection.getGrammemes() | pos);
+        }
+    }
+    if (paradigmGrammemes.empty()) {
+        return {wordGrammemes};
+    }
+    return paradigmGrammemes;
+}
+
 DictionaryExposableMorphology::DictionaryExposableMorphology(const ::inflection::util::ULocale &locale)
     : super()
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(locale)))

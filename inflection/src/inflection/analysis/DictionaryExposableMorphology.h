@@ -57,3 +57,39 @@ INFLECTION_CAPI int32_t dem_getWordGrammemeSets(
     int64_t* results, int32_t resultsCapacity,
     UErrorCode* status);
 
+/**
+ * Get all possible inflections in the inflection paradigm(s) of a word.
+ *
+ * This function enumerates ALL forms in the word's inflection pattern, not just
+ * interpretations of the given surface form. For example, "gato" would return
+ * grammeme sets for both singular ("gato") and plural ("gatos") forms. In constrast, 
+ * dem_getWordGrammemeSets bases on the word you supply and sees whether there are available sets from that word.
+ *
+ * This is useful for determining which grammatical dimensions can vary for a word.
+ *
+ * Two-pass pattern:
+ * 1. Call with results=NULL and resultsCapacity=0 to get the count
+ * 2. Allocate array with that count, call again to fill it
+ *
+ * @param locale BCP 47 locale string (e.g. "en", "es", "de").
+ * @param word UTF-16 word to analyze.
+ * @param wordLen Length of word in char16_t units, or -1 for NULL-terminated.
+ * @param results Output array to fill with grammeme sets (can be NULL for probe pass).
+ * @param resultsCapacity Capacity of results array.
+ * @param status UErrorCode.
+ * @return Number of inflections found (0 if unknown word, -1 on error).
+ *
+ * Example:
+ *     // Get all forms in the paradigm for "gato"
+ *     int32_t count = dem_getWordParadigmGrammemes("es", u"gato", -1, NULL, 0, &status);
+ *     // count might be 2 (singular + plural)
+ *     int64_t* sets = malloc(count * sizeof(int64_t));
+ *     dem_getWordParadigmGrammemes("es", u"gato", -1, sets, count, &status);
+ *     // sets[0] = grammemes for singular, sets[1] = grammemes for plural
+ */
+INFLECTION_CAPI int32_t dem_getWordParadigmGrammemes(
+    const char* locale,
+    const char16_t* word, int32_t wordLen,
+    int64_t* results, int32_t resultsCapacity,
+    UErrorCode* status);
+

@@ -21,8 +21,9 @@ private: /* package */
     const int32_t inflectionsArrayStart {  };
     const ::inflection::dictionary::Inflector_MMappedDictionary& inflectorDictionary;
 
-private:
+public:
     Inflector_Inflection getInflectionAtPosition(int32_t idx) const;
+private:
     ::std::u16string reinflectImplementation(int64_t fromGrammemes, int64_t toConstraints, const std::vector<int64_t> &toOptionalConstraints, std::u16string_view surfaceForm) const;
 
 public:
