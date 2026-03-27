@@ -59,7 +59,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set_target_properties(inflection PROPERTIES
 		BUILD_WITH_INSTALL_RPATH TRUE
 		BUILD_WITH_INSTALL_NAME_DIR TRUE
-		INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR}
+		INSTALL_NAME_DIR "@loader_path"
 	)
 else()
 	set_target_properties(inflection PROPERTIES
